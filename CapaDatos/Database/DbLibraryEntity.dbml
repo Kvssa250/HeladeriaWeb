@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Heladeria" Class="DbLibraryEntityDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=Heladeria;Integrated Security=True" SettingsObjectName="CapaDatos.Properties.Settings" SettingsPropertyName="HeladeriaConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Cliente" Member="Clientes">
+    <Type Name="Cliente">
+      <Column Name="Id_Cliente" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nombre_completo" Type="System.String" DbType="VarChar(60)" CanBeNull="true" />
+      <Column Name="Id_Producto" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id_Empleado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id_Sucursal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Num_de_factura" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Cliente_Factura" Member="Facturas" ThisKey="Id_Cliente" OtherKey="Id_Cliente" Type="Factura" />
+      <Association Name="Sucursal_Cliente" Member="Sucursal" ThisKey="Id_Sucursal" OtherKey="Id_Sucursal" Type="Sucursal" IsForeignKey="true" />
+      <Association Name="Empleado_Cliente" Member="Empleado" ThisKey="Id_Empleado" OtherKey="Id_Empleado" Type="Empleado" IsForeignKey="true" />
+      <Association Name="Factura_Cliente" Member="Factura" ThisKey="Num_de_factura" OtherKey="Num_de_factura" Type="Factura" IsForeignKey="true" />
+      <Association Name="Producto_Cliente" Member="Producto" ThisKey="Id_Producto" OtherKey="Id_Producto" Type="Producto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Sucursal" Member="Sucursals">
+    <Type Name="Sucursal">
+      <Column Name="Id_Sucursal" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Direccion" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Id_Empleado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id_Producto" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Sucursal_Cliente" Member="Clientes" ThisKey="Id_Sucursal" OtherKey="Id_Sucursal" Type="Cliente" />
+      <Association Name="Sucursal_Empleado" Member="Empleados" ThisKey="Id_Sucursal" OtherKey="Id_Sucursal" Type="Empleado" />
+      <Association Name="Empleado_Sucursal" Member="Empleado" ThisKey="Id_Empleado" OtherKey="Id_Empleado" Type="Empleado" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Empleado" Member="Empleados">
+    <Type Name="Empleado">
+      <Column Name="Id_Empleado" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Apellido" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Estado" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Puesto" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id_Sucursal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Empleado_Cliente" Member="Clientes" ThisKey="Id_Empleado" OtherKey="Id_Empleado" Type="Cliente" />
+      <Association Name="Empleado_Sucursal" Member="Sucursals" ThisKey="Id_Empleado" OtherKey="Id_Empleado" Type="Sucursal" />
+      <Association Name="Empleado_Factura" Member="Facturas" ThisKey="Id_Empleado" OtherKey="Id_Empleado" Type="Factura" />
+      <Association Name="Sucursal_Empleado" Member="Sucursal" ThisKey="Id_Sucursal" OtherKey="Id_Sucursal" Type="Sucursal" IsForeignKey="true" />
+      <Association Name="Puesto_Empleado" Member="Puesto" ThisKey="Id_Puesto" OtherKey="Id_Puesto" Type="Puesto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Factura" Member="Facturas">
+    <Type Name="Factura">
+      <Column Name="Num_de_factura" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nombre_cliente" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Apellido_cliente" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Nombre_empleado" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Apellido_empleado" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="Fecha" Type="System.String" DbType="VarChar(11)" CanBeNull="true" />
+      <Column Name="Id_Empleado" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id_Cliente" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id_Producto" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Factura_Cliente" Member="Clientes" ThisKey="Num_de_factura" OtherKey="Num_de_factura" Type="Cliente" />
+      <Association Name="Empleado_Factura" Member="Empleado" ThisKey="Id_Empleado" OtherKey="Id_Empleado" Type="Empleado" IsForeignKey="true" />
+      <Association Name="Cliente_Factura" Member="Cliente" ThisKey="Id_Cliente" OtherKey="Id_Cliente" Type="Cliente" IsForeignKey="true" />
+      <Association Name="Producto_Factura" Member="Producto" ThisKey="Id_Producto" OtherKey="Id_Producto" Type="Producto" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Peso" Member="Pesos">
+    <Type Name="Peso">
+      <Column Name="Id_Envase" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Capacidad_envase" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Peso_real" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Peso_Producto" Member="Productos" ThisKey="Id_Envase" OtherKey="Id_Envase" Type="Producto" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Producto" Member="Productos">
+    <Type Name="Producto">
+      <Column Name="Id_Producto" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Desc_producto" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Precio_producto" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id_Envase" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Producto_Cliente" Member="Clientes" ThisKey="Id_Producto" OtherKey="Id_Producto" Type="Cliente" />
+      <Association Name="Producto_Factura" Member="Facturas" ThisKey="Id_Producto" OtherKey="Id_Producto" Type="Factura" />
+      <Association Name="Peso_Producto" Member="Peso" ThisKey="Id_Envase" OtherKey="Id_Envase" Type="Peso" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Puesto" Member="Puestos">
+    <Type Name="Puesto">
+      <Column Name="Id_Puesto" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre_de_puesto" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Puesto_Empleado" Member="Empleados" ThisKey="Id_Puesto" OtherKey="Id_Puesto" Type="Empleado" />
+    </Type>
+  </Table>
+</Database>
